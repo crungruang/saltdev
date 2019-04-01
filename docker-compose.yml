@@ -1,0 +1,44 @@
+version: '3'
+services:
+  minion01:
+    build:
+      context: .
+      dockerfile: Dockerfile.minion-bionic
+    links:
+      - saltmaster
+    depends_on:
+      - saltmaster
+    container_name: minion01
+    hostname: django01
+
+  minion02:
+    build:
+      context: .
+      dockerfile: Dockerfile.minion-bionic
+    links:
+      - saltmaster
+    depends_on:
+      - saltmaster
+    container_name: minion02
+    hostname: postgres01
+
+  minion03:
+    build:
+      context: .
+      dockerfile: Dockerfile.minion-bionic
+    links:
+      - saltmaster
+    depends_on:
+      - saltmaster
+    container_name: minion03
+    hostname: redis01
+
+  saltmaster:
+    container_name: saltmaster01
+    hostname: saltmaster01
+    build:
+      context: .
+      dockerfile: Dockerfile.master-bionic
+    volumes:
+      - $REPO_HOME/saltdev/salt:/srv/salt/
+      - $REPO_HOME/saltdev/pillar:/srv/pillar/

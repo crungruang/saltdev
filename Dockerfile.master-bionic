@@ -1,0 +1,4 @@
+FROM ubuntu:bionic
+RUN apt-get update && apt-get install salt-master -y
+RUN sed -i "s|#auto_accept: False|auto_accept: True|g" /etc/salt/master
+ENTRYPOINT ["salt-master", "-l", "info"]
